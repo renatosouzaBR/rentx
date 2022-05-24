@@ -5,7 +5,7 @@ import LogoSvg from "../../assets/logo.svg";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background_light};
 `;
 
 export const Header = styled.View`

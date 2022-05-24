@@ -6,6 +6,7 @@ export default {
 
     shape: "#29292E",
     background: "#FFFFFF",
+    background_light: "#F4F5F6",
     success: "#03B252",
 
     title: "#47474D",
