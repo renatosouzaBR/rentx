@@ -1,6 +1,9 @@
+import "react-native-gesture-handler";
+
 import React, { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { ThemeProvider } from "styled-components";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   useFonts,
   Archivo_400Regular,
@@ -13,8 +16,9 @@ import {
   Inter_600SemiBold,
 } from "@expo-google-fonts/inter";
 
-import { Home } from "./src/screens/Home";
 import theme from "./src/global/styles/theme";
+import { Home } from "./src/screens/Home";
+import { CarDetails } from "./src/screens/CarDetails";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -45,8 +49,10 @@ export default function App() {
   }, [fontsLoaded]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Home />
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <CarDetails />
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }

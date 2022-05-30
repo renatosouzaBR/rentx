@@ -3,7 +3,7 @@ import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 
 import { CarCard } from "../../components/CarCard";
-import { Container, Header, LogoImage, TotalCar } from "./styles";
+import { CarList, Container, Header, LogoImage, TotalCar } from "./styles";
 
 const carOne = {
   name: "audi",
@@ -13,17 +13,6 @@ const carOne = {
     price: 120,
   },
   thumbnail: "https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png",
-};
-
-const carTwo = {
-  name: "Porsche",
-  model: "Panamera",
-  rent: {
-    period: "ao dia",
-    price: 340,
-  },
-  thumbnail:
-    "https://w7.pngwing.com/pngs/722/297/png-transparent-2012-porsche-panamera-sports-car-porsche-cayenne-porsche-compact-car-car-vehicle.png",
 };
 
 export function Home() {
@@ -42,8 +31,10 @@ export function Home() {
         <TotalCar>Total de 12 carros</TotalCar>
       </Header>
 
-      <CarCard data={carOne} />
-      <CarCard data={carTwo} />
+      <CarList
+        data={[1, 2, 3, 4, 5, 6, 7]}
+        renderItem={(item) => <CarCard data={carOne} />}
+      />
     </Container>
   );
 }

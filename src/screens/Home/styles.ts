@@ -29,3 +29,17 @@ export const TotalCar = styled.Text`
   font-size: ${RFValue(15)}px;
   color: ${({ theme }) => theme.colors.text};
 `;
+
+export const CarListSeparator = styled.View`
+  width: 100%;
+  height: ${RFValue(16)}px;
+  background-color: transparent;
+`;
+
+export const CarList = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    padding: 16,
+  },
+  ItemSeparatorComponent: CarListSeparator,
+})``;
