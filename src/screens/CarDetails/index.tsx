@@ -5,6 +5,7 @@ import { useTheme } from "styled-components";
 import { Accessory } from "../../components/Accessory";
 import { BackButton } from "../../components/BackButton";
 import { ImageSlider } from "../../components/ImageSlider";
+import { Button } from "../../components/Button";
 
 import SpeedSvg from "../../assets/speed.svg";
 import UpSvg from "../../assets/up.svg";
@@ -29,7 +30,6 @@ import {
   Accessories,
   Footer,
 } from "./styles";
-import { Button } from "../../components/Button";
 
 export function CarDetails() {
   const theme = useTheme();

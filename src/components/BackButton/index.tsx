@@ -3,12 +3,16 @@ import { BorderlessButtonProps } from "react-native-gesture-handler";
 
 import { Container, Icon } from "./styles";
 
-interface BackButtonProps extends BorderlessButtonProps {}
+interface BackButtonProps extends BorderlessButtonProps {
+  color?: string;
+}
 
 export function BackButton(props: BackButtonProps) {
+  const { color, ...rest } = props;
+
   return (
-    <Container {...props}>
-      <Icon name="chevron-back" />
+    <Container {...rest}>
+      <Icon name="chevron-back" color={color} />
     </Container>
   );
 }
