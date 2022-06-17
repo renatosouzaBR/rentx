@@ -27,7 +27,6 @@ export const ImageIndex = styled.View<ImageIndexProps>`
 
 export const CarWrapper = styled.View`
   width: 100%;
-  padding: ${RFValue(36)}px ${RFValue(16)}px;
 `;
 
 export const CarImage = styled.Image`
