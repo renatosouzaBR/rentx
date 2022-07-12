@@ -1,7 +1,9 @@
 import styled from "styled-components/native";
+import { FlatList } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import LogoSvg from "../../assets/logo.svg";
+import { CarDTO } from "../../dtos/carDto";
 
 export const Container = styled.View`
   flex: 1;
@@ -36,7 +38,7 @@ export const CarListSeparator = styled.View`
   background-color: transparent;
 `;
 
-export const CarList = styled.FlatList.attrs({
+export const CarList = styled(FlatList as new () => FlatList<CarDTO>).attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     padding: 16,

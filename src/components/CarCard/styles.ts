@@ -1,9 +1,8 @@
 import styled from "styled-components/native";
 import { RFValue } from "react-native-responsive-fontsize";
+import { RectButton } from "react-native-gesture-handler";
 
-import EnergySvg from "../../assets/energy.svg";
-
-export const Container = styled.View`
+export const Container = styled(RectButton)`
   width: 100%;
   height: ${RFValue(126)}px;
   background-color: ${({ theme }) => theme.colors.background};
@@ -56,11 +55,6 @@ export const Price = styled.Text`
   font-size: ${RFValue(15)}px;
   color: ${({ theme }) => theme.colors.primary};
 `;
-
-export const CategoryIcon = styled(EnergySvg).attrs({
-  width: RFValue(20),
-  height: RFValue(20),
-})``;
 
 export const CarImage = styled.Image`
   width: ${RFValue(160)}px;

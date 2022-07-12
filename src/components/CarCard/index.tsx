@@ -1,4 +1,8 @@
 import React from "react";
+import { RectButtonProps } from "react-native-gesture-handler";
+
+import { CarDTO } from "../../dtos/carDto";
+import { getAccessoryIcon } from "../../utils/getAccessoryIcon";
 
 import {
   Container,
@@ -11,32 +15,23 @@ import {
   Period,
   Price,
   CarImage,
-  CategoryIcon,
 } from "./styles";
 
-interface CarData {
-  name: string;
-  model: string;
-  rent: {
-    period: string;
-    price: number;
-  };
-  thumbnail: string;
-}
-
-interface CarCardProps {
-  data: CarData;
+interface CarCardProps extends RectButtonProps {
+  data: CarDTO;
 }
 
 export function CarCard(props: CarCardProps) {
-  const { name, model, rent, thumbnail } = props.data;
+  const { data, ...rest } = props;
+  const { name, brand, rent, thumbnail, fuel_type } = data;
+  const CategoryIcon = getAccessoryIcon(fuel_type);
 
   return (
-    <Container>
+    <Container {...rest}>
       <DetailsWrapper>
         <Brand>
-          <Name>{name}</Name>
-          <Model>{model}</Model>
+          <Name>{brand}</Name>
+          <Model>{name}</Model>
         </Brand>
 
         <Rent>

@@ -1,18 +1,14 @@
 import React from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
+import { getAccessoryIcon } from "../../utils/getAccessoryIcon";
+import { CarDTO } from "../../dtos/carDto";
 import { Accessory } from "../../components/Accessory";
 import { BackButton } from "../../components/BackButton";
 import { ImageSlider } from "../../components/ImageSlider";
 import { Button } from "../../components/Button";
-
-import SpeedSvg from "../../assets/speed.svg";
-import UpSvg from "../../assets/up.svg";
-import ForceSvg from "../../assets/force.svg";
-import GasolineSvg from "../../assets/gasoline.svg";
-import ExchangeSvg from "../../assets/exchange.svg";
-import PeopleSvg from "../../assets/people.svg";
 
 import {
   BackButtonWrapper,
@@ -31,8 +27,19 @@ import {
   Footer,
 } from "./styles";
 
+interface Params {
+  car: CarDTO;
+}
+
 export function CarDetails() {
   const theme = useTheme();
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { car } = route.params as Params;
+
+  function handleBack() {
+    navigation.goBack();
+  }
 
   return (
     <Container>
@@ -44,41 +51,36 @@ export function CarDetails() {
 
       <Header>
         <BackButtonWrapper>
-          <BackButton />
+          <BackButton onPress={handleBack} />
         </BackButtonWrapper>
 
-        <ImageSlider
-          imagesURL={["https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png"]}
-        />
+        <ImageSlider imagesURL={car.photos} />
       </Header>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Lamborguini</Brand>
-            <Name>Huracan</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
 
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 580</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>R$ {car.rent.price}</Price>
           </Rent>
         </Details>
 
         <Accessories>
-          <Accessory name="380km/h" icon={SpeedSvg} />
-          <Accessory name="3.2s" icon={UpSvg} />
-          <Accessory name="800 HP" icon={ForceSvg} />
-          <Accessory name="Gasolina" icon={GasolineSvg} />
-          <Accessory name="Auto " icon={ExchangeSvg} />
-          <Accessory name="2 pessoas" icon={PeopleSvg} />
+          {car.accessories.map((item) => (
+            <Accessory
+              name={item.name}
+              icon={getAccessoryIcon(item.type)}
+              key={item.name}
+            />
+          ))}
         </Accessories>
 
-        <About>
-          Este é automóvel desportivo. Surgiu do lendário touro de lide
-          indultado na praça Real Maestranza de Sevilla. É um belíssimo carro
-          para quem gosta de acelerar.
-        </About>
+        <About>{car.about}</About>
       </Content>
 
       <Footer>

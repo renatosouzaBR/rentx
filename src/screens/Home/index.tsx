@@ -1,22 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
+import { useNavigation } from "@react-navigation/native";
 
 import { CarCard } from "../../components/CarCard";
+import { Loading } from "../../components/Loading";
+import { CarDTO } from "../../dtos/carDto";
+import { api } from "../../services/api";
 import { CarList, Container, Header, LogoImage, TotalCar } from "./styles";
-
-const carOne = {
-  name: "audi",
-  model: "RS 5 Coupé",
-  rent: {
-    period: "ao dia",
-    price: 120,
-  },
-  thumbnail: "https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png",
-};
 
 export function Home() {
   const theme = useTheme();
+  const navigation = useNavigation();
+  const [cars, setCars] = useState<CarDTO[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  function handleCarDetails(car: CarDTO) {
+    navigation.navigate("CarDetails", { car });
+  }
+
+  async function fetchCars() {
+    try {
+      const response = await api.get("/cars");
+      setCars(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchCars();
+  }, []);
 
   return (
     <Container>
@@ -28,13 +44,20 @@ export function Home() {
 
       <Header>
         <LogoImage />
-        <TotalCar>Total de 12 carros</TotalCar>
+        <TotalCar>Total de {cars.length} carros</TotalCar>
       </Header>
 
-      <CarList
-        data={[1, 2, 3, 4, 5, 6, 7]}
-        renderItem={(item) => <CarCard data={carOne} />}
-      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <CarList
+          data={cars}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <CarCard data={item} onPress={() => handleCarDetails(item)} />
+          )}
+        />
+      )}
     </Container>
   );
 }
