@@ -41,6 +41,10 @@ export function CarDetails() {
     navigation.goBack();
   }
 
+  function handleScheduling() {
+    navigation.navigate("Scheduling", { car });
+  }
+
   return (
     <Container>
       <StatusBar
@@ -84,7 +88,10 @@ export function CarDetails() {
       </Content>
 
       <Footer>
-        <Button title="Escolher período do aluguel" onPress={() => {}} />
+        <Button
+          title="Escolher período do aluguel"
+          onPress={handleScheduling}
+        />
       </Footer>
     </Container>
   );

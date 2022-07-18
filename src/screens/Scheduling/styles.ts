@@ -32,7 +32,7 @@ export const RentalPeriod = styled.View`
 `;
 
 export const DateInfo = styled.View`
-  width: 30%;
+  width: 32%;
 `;
 
 export const DateLabel = styled.Text`

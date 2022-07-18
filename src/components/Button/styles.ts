@@ -4,13 +4,15 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 interface ButtonProps extends RectButtonProps {
   color?: string;
+  disabled?: boolean;
 }
 
 export const Container = styled(RectButton)<ButtonProps>`
   width: 100%;
   padding: ${RFValue(19)}px;
 
-  background-color: ${({ theme, color }) => color || theme.colors.primary};
+  background-color: ${({ theme, color, disabled }) =>
+    disabled ? theme.colors.primary_light : color || theme.colors.primary};
   align-items: center;
   justify-content: center;
 `;
