@@ -17,12 +17,6 @@ export const BackButtonWrapper = styled.View`
   left: ${RFValue(26)}px;
 `;
 
-export const Content = styled.ScrollView.attrs({
-  contentContainerStyle: {
-    padding: RFValue(24),
-  },
-})``;
-
 export const Details = styled.View`
   flex-direction: row;
   align-items: center;

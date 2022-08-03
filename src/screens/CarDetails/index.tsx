@@ -2,6 +2,14 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { RFValue } from "react-native-responsive-fontsize";
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 
 import { getAccessoryIcon } from "../../utils/getAccessoryIcon";
 import { CarDTO } from "../../dtos/carDto";
@@ -14,7 +22,6 @@ import {
   BackButtonWrapper,
   Container,
   Header,
-  Content,
   Details,
   Description,
   Brand,
@@ -37,6 +44,19 @@ export function CarDetails() {
   const route = useRoute();
   const { car } = route.params as Params;
 
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
+
+  const headerAnimatedStyle = useAnimatedStyle(() => ({
+    height: interpolate(scrollY.value, [0, 200], [300, 120], Extrapolate.CLAMP),
+  }));
+
+  const imageCarsAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(scrollY.value, [0, 140], [1, 0], Extrapolate.CLAMP),
+  }));
+
   function handleBack() {
     navigation.goBack();
   }
@@ -53,15 +73,23 @@ export function CarDetails() {
         backgroundColor={theme.colors.background}
       />
 
-      <Header>
-        <BackButtonWrapper>
-          <BackButton onPress={handleBack} />
-        </BackButtonWrapper>
+      <Animated.View style={[headerAnimatedStyle]}>
+        <Header>
+          <BackButtonWrapper>
+            <BackButton onPress={handleBack} />
+          </BackButtonWrapper>
 
-        <ImageSlider imagesURL={car.photos} />
-      </Header>
+          <Animated.View style={imageCarsAnimatedStyle}>
+            <ImageSlider imagesURL={car.photos} />
+          </Animated.View>
+        </Header>
+      </Animated.View>
 
-      <Content>
+      <Animated.ScrollView
+        contentContainerStyle={{ padding: RFValue(24) }}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+      >
         <Details>
           <Description>
             <Brand>{car.brand}</Brand>
@@ -84,8 +112,12 @@ export function CarDetails() {
           ))}
         </Accessories>
 
-        <About>{car.about}</About>
-      </Content>
+        <About>
+          {car.about}
+          {car.about}
+          {car.about}
+        </About>
+      </Animated.ScrollView>
 
       <Footer>
         <Button
