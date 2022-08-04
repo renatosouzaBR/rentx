@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, BackHandler } from "react-native";
 import { useTheme } from "styled-components";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { CarCard } from "../../components/CarCard";
-import { Loading } from "../../components/Loading";
+import { LoadingCar } from "../../components/LoadingCar";
 import { CarDTO } from "../../dtos/carDto";
 import { api } from "../../services/api";
 import {
@@ -78,6 +78,12 @@ export function Home() {
     fetchCars();
   }, []);
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
+  }, []);
+
   return (
     <Container>
       <StatusBar
@@ -92,7 +98,7 @@ export function Home() {
       </Header>
 
       {loading ? (
-        <Loading />
+        <LoadingCar />
       ) : (
         <CarList
           data={cars}
