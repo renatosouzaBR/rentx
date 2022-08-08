@@ -9,10 +9,18 @@ interface ButtonProps extends RectButtonProps {
   color?: string;
   enabled?: boolean;
   loading?: boolean;
+  light?: boolean;
 }
 
 export function Button(props: ButtonProps) {
-  const { title, color, enabled = true, loading = false, ...rest } = props;
+  const {
+    title,
+    color,
+    enabled = true,
+    loading = false,
+    light = false,
+    ...rest
+  } = props;
 
   return (
     <Container
@@ -24,7 +32,7 @@ export function Button(props: ButtonProps) {
       {loading ? (
         <ActivityIndicator size={24} color="#FFF" />
       ) : (
-        <Title>{title}</Title>
+        <Title light={light}>{title}</Title>
       )}
     </Container>
   );
