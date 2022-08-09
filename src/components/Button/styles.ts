@@ -14,6 +14,7 @@ interface ButtonTextProps {
 export const Container = styled(RectButton)<ButtonProps>`
   width: 100%;
   padding: ${RFValue(19)}px;
+  margin-bottom: 8px;
 
   background-color: ${({ theme, color, disabled }) =>
     disabled ? theme.colors.primary_light : color || theme.colors.primary};
