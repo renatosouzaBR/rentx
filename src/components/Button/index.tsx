@@ -7,7 +7,6 @@ import { Container, Title } from "./styles";
 interface ButtonProps extends RectButtonProps {
   title: string;
   color?: string;
-  enabled?: boolean;
   loading?: boolean;
   light?: boolean;
 }
@@ -24,10 +23,10 @@ export function Button(props: ButtonProps) {
 
   return (
     <Container
+      {...rest}
       color={color}
       enabled={enabled}
       style={{ opacity: enabled ? 1 : 0.5 }}
-      {...rest}
     >
       {loading ? (
         <ActivityIndicator size={24} color="#FFF" />
