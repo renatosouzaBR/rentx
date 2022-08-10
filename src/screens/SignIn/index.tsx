@@ -7,6 +7,7 @@ import {
   Alert,
 } from "react-native";
 import { useTheme } from "styled-components";
+import { useNavigation } from "@react-navigation/native";
 import * as yup from "yup";
 
 import { Button } from "../../components/Button";
@@ -17,6 +18,7 @@ import { Container, Footer, Header, SubTitle, Title, Form } from "./styles";
 
 export function SignIn() {
   const theme = useTheme();
+  const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +44,10 @@ export function SignIn() {
         );
       }
     }
+  }
+
+  function handleSignUp() {
+    navigation.navigate("SignUpFirstStep");
   }
 
   return (
@@ -89,10 +95,10 @@ export function SignIn() {
             />
             <Button
               title="Criar conta gratuita"
-              onPress={() => {}}
+              onPress={handleSignUp}
               light
               color={theme.colors.background}
-              enabled={false}
+              enabled={true}
               loading={false}
             />
           </Footer>
