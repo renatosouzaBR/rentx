@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StatusBar,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { useTheme } from "styled-components";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import * as yup from "yup";
 
 import { BackButton } from "../../../components/BackButton";
 import { Bullet } from "../../../components/Bullet";
@@ -24,12 +26,54 @@ import {
   FormTitle,
 } from "./styles";
 
+interface Params {
+  user: { name: string; email: string; driverLicense: string };
+}
+
 export function SignUpSecondStep() {
   const theme = useTheme();
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const { user } = route.params as Params;
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   function handleBack() {
     navigation.goBack();
+  }
+
+  async function handleRegister() {
+    try {
+      const schema = yup.object().shape({
+        passwordConfirm: yup
+          .string()
+          .required("Confirmação de senha é obrigatório")
+          .oneOf(
+            [yup.ref("password"), null],
+            "As senhas não são iguais, verifique!"
+          ),
+        password: yup.string().required("Senha é obrigatório"),
+      });
+
+      await schema.validate({ password, passwordConfirm });
+
+      // Realizar o registro na API
+      navigation.navigate("Confirmation", {
+        title: "Conta criada!",
+        message: "",
+        nextScreenRoute: "SignIn",
+      });
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        Alert.alert("Opa", error.message);
+      } else {
+        Alert.alert(
+          "Falha ao cadastrar",
+          "Não foi possível realizar o cadastro, tente novamente!"
+        );
+      }
+    }
   }
 
   return (
@@ -45,8 +89,8 @@ export function SignUpSecondStep() {
           <Header>
             <BackButton onPress={handleBack} />
             <Steps>
-              <Bullet active />
               <Bullet />
+              <Bullet active />
             </Steps>
           </Header>
 
@@ -60,11 +104,25 @@ export function SignUpSecondStep() {
             <Form>
               <FormTitle>2. Senha</FormTitle>
 
-              <PasswordInput iconName="lock" placeholder="Senha" />
-              <PasswordInput iconName="lock" placeholder="Repetir senha" />
+              <PasswordInput
+                iconName="lock"
+                placeholder="Senha"
+                onChangeText={setPassword}
+                value={password}
+              />
+              <PasswordInput
+                iconName="lock"
+                placeholder="Repetir senha"
+                onChangeText={setPasswordConfirm}
+                value={passwordConfirm}
+              />
             </Form>
 
-            <Button title="Cadastrar" color={theme.colors.success} />
+            <Button
+              title="Cadastrar"
+              color={theme.colors.success}
+              onPress={handleRegister}
+            />
           </Content>
         </Container>
       </TouchableWithoutFeedback>
