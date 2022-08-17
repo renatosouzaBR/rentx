@@ -10,6 +10,7 @@ import { useTheme } from "styled-components";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as yup from "yup";
 
+import { api } from "../../../services/api";
 import { BackButton } from "../../../components/BackButton";
 import { Bullet } from "../../../components/Bullet";
 import { Button } from "../../../components/Button";
@@ -58,7 +59,13 @@ export function SignUpSecondStep() {
 
       await schema.validate({ password, passwordConfirm });
 
-      // Realizar o registro na API
+      await api.post("/users", {
+        name: user.name,
+        email: user.email,
+        driver_license: user.driverLicense,
+        password,
+      });
+
       navigation.navigate("Confirmation", {
         title: "Conta criada!",
         message: "",
