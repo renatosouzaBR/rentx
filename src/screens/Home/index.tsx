@@ -50,8 +50,8 @@ export function Home() {
       positionY.value = ctx.positionY + event.translationY;
     },
     onEnd(event) {
-      positionX.value = withSpring(0);
-      positionY.value = withSpring(0);
+      positionX.value = withSpring(positionX.value);
+      positionY.value = withSpring(positionY.value);
     },
   });
 
