@@ -23,7 +23,7 @@ interface CarCardProps extends RectButtonProps {
 
 export function CarCard(props: CarCardProps) {
   const { data, ...rest } = props;
-  const { name, brand, rent, thumbnail, fuel_type } = data;
+  const { name, brand, period, price, thumbnail, fuel_type } = data;
   const CategoryIcon = getAccessoryIcon(fuel_type);
 
   return (
@@ -36,8 +36,8 @@ export function CarCard(props: CarCardProps) {
 
         <Rent>
           <RentWrapper>
-            <Period>{rent.period}</Period>
-            <Price>R$ {rent.price}</Price>
+            <Period>{period}</Period>
+            <Price>R$ {price}</Price>
           </RentWrapper>
 
           <CategoryIcon />
