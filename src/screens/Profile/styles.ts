@@ -1,14 +1,14 @@
 import React from "react";
-import styled from "styled-components/native";
-import {
-  BorderlessButton,
-  BorderlessButtonProps,
-  RectButton,
-} from "react-native-gesture-handler";
+import styled, { css } from "styled-components/native";
+import { BorderlessButton, RectButton } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 
 interface ButtonProps {
   children: React.ReactNode;
+}
+
+interface OptionProps extends ButtonProps {
+  active: boolean;
 }
 
 export const Container = styled.View`
@@ -68,4 +68,37 @@ export const PhotoButton = styled(RectButton)<ButtonProps>`
   position: absolute;
   right: 1px;
   bottom: 1px;
+`;
+
+export const Content = styled.View`
+  padding: 0 ${RFValue(24)}px;
+`;
+
+export const Options = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  margin-top: 122px;
+  border-bottom-width: 1px;
+  border-bottom-color: #ebebf0;
+`;
+
+export const OptionButton = styled.TouchableOpacity<OptionProps>`
+  padding: 0 0 14px 0;
+
+  ${({ theme, active }) =>
+    active &&
+    css`
+      border-bottom-width: 2px;
+      border-bottom-color: ${theme.colors.primary};
+    `}
+`;
+
+export const OptionTitle = styled.Text<OptionProps>`
+  font-size: ${RFValue(20)}px;
+  font-family: ${({ theme, active }) =>
+    active ? theme.fonts.archivo.semiBold : theme.fonts.archivo.regular};
+  color: ${({ theme, active }) =>
+    active ? theme.colors.title : theme.colors.text_light};
 `;
