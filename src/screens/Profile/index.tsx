@@ -101,13 +101,21 @@ export function Profile() {
     }
   }
 
+  function handleSignOut() {
+    Alert.alert(
+      "Tem certeza?",
+      "Se você sair, irá precisar de internet para conectar-se novamente!",
+      [{ text: "Cancelar" }, { text: "Sair", onPress: () => signOut() }]
+    );
+  }
+
   return (
     <Container>
       <Header>
         <HeaderTop>
           <BackButton color={theme.colors.background} onPress={handleBack} />
           <HeaderTitle>Editar Perfil</HeaderTitle>
-          <SignOutButton onPress={signOut}>
+          <SignOutButton onPress={handleSignOut}>
             <Feather name="power" size={24} color={theme.colors.text_light} />
           </SignOutButton>
         </HeaderTop>
