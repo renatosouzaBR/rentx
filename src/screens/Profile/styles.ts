@@ -40,13 +40,16 @@ export const HeaderTitle = styled.Text`
   color: ${({ theme }) => theme.colors.background};
 `;
 
-export const SignOutButton = styled(BorderlessButton)<ButtonProps>``;
+export const SignOutButton = styled(BorderlessButton)<ButtonProps>`
+  padding: 10px;
+`;
 
 export const PhotoWrapper = styled.View`
   width: 180px;
   height: 180px;
   border-radius: 90px;
 
+  background-color: ${({ theme }) => theme.colors.text_light};
   margin-top: ${RFValue(50)}px;
 `;
 
@@ -101,4 +104,13 @@ export const OptionTitle = styled.Text<OptionProps>`
     active ? theme.fonts.archivo.semiBold : theme.fonts.archivo.regular};
   color: ${({ theme, active }) =>
     active ? theme.colors.title : theme.colors.text_light};
+`;
+
+export const Form = styled.View`
+  margin-top: ${RFValue(24)}px;
+`;
+
+export const Footer = styled.View`
+  padding: 0 ${RFValue(24)}px;
+  margin-top: ${RFValue(8)}px;
 `;

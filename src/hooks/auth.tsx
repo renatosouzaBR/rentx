@@ -9,6 +9,7 @@ import React, {
 import { api } from "../services/api";
 import { database } from "../database";
 import { User as UserModel } from "../database/model/user";
+import { Q } from "@nozbe/watermelondb";
 
 interface User {
   id: string;
@@ -31,6 +32,8 @@ interface SignInCredentials {
 interface AuthContextProps {
   user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
+  signOut(): Promise<void>;
+  updateUser(user: User): Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -65,6 +68,44 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    try {
+      await database.write(async () => {
+        const currentUser = await database
+          .get<UserModel>("users")
+          .find(data.user.id);
+
+        if (currentUser) {
+          await currentUser.destroyPermanently();
+        }
+      });
+
+      setData({} as AuthState);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async function updateUser(user: User) {
+    try {
+      await database.write(async () => {
+        const currentUser = await database
+          .get<UserModel>("users")
+          .find(data.user.id);
+
+        await currentUser.update((current: UserModel) => {
+          current.name = user.name;
+          current.driver_license = user.driver_license;
+          current.avatar = user.avatar;
+        });
+      });
+
+      setData((old) => ({ ...old, user }));
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   useEffect(() => {
     async function loadUser() {
       const users = await database.get("users").query().fetch();
@@ -79,7 +120,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
