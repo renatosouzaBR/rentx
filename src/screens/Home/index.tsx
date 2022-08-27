@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StatusBar, BackHandler } from "react-native";
+import { StatusBar, BackHandler, Alert } from "react-native";
 import { useTheme } from "styled-components";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,6 +10,7 @@ import Animated, {
   useAnimatedGestureHandler,
   withSpring,
 } from "react-native-reanimated";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import { CarCard } from "../../components/CarCard";
 import { LoadingCar } from "../../components/LoadingCar";
@@ -29,6 +30,8 @@ export function Home() {
   const navigation = useNavigation();
   const [cars, setCars] = useState<CarDTO[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const netInfo = useNetInfo();
 
   const positionY = useSharedValue(0);
   const positionX = useSharedValue(0);
@@ -94,6 +97,14 @@ export function Home() {
       return true;
     });
   }, []);
+
+  useEffect(() => {
+    if (netInfo.isConnected) {
+      Alert.alert("Você está online");
+    } else {
+      Alert.alert("Você está offline");
+    }
+  }, [netInfo.isConnected]);
 
   return (
     <Container>
