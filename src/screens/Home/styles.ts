@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -6,6 +7,10 @@ import Animated from "react-native-reanimated";
 
 import LogoSvg from "../../assets/logo.svg";
 import { Car as ModelCar } from "../../database/model/car";
+
+interface ButtonProps {
+  children: React.ReactNode;
+}
 
 export const Container = styled.View`
   flex: 1;
@@ -50,7 +55,7 @@ export const CarList = styled(FlatList as new () => FlatList<ModelCar>).attrs({
 
 export const MyCarsButton = styled(
   Animated.createAnimatedComponent(RectButton)
-)`
+)<ButtonProps>`
   width: ${RFValue(60)}px;
   height: ${RFValue(60)}px;
   border-radius: ${RFValue(30)}px;

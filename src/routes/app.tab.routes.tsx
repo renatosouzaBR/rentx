@@ -10,6 +10,18 @@ import { AppStackRoutes } from "./app.stack.routes";
 import { Platform } from "react-native";
 import { Profile } from "../screens/Profile";
 
+type AppTabRoutesParams = {
+  Home: undefined;
+  MyCars: undefined;
+  Profile: undefined;
+};
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends AppTabRoutesParams {}
+  }
+}
+
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export function AppTabRoutes() {

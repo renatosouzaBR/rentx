@@ -6,6 +6,20 @@ import { SignIn } from "../screens/SignIn";
 import { SignUpFirstStep } from "../screens/SignUp/SignUpFirstStep";
 import { SignUpSecondStep } from "../screens/SignUp/SignUpSecondStep";
 
+type AuthRoutesParams = {
+  Splash: undefined;
+  SignIn: undefined;
+  SignUpFirstStep: undefined;
+  SignUpSecondStep: undefined;
+  Confirmation: undefined;
+};
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends AuthRoutesParams {}
+  }
+}
+
 const { Navigator, Screen } = createStackNavigator();
 
 export function AuthRoutes() {

@@ -6,7 +6,23 @@ import { Scheduling } from "../screens/Scheduling";
 import { Confirmation } from "../screens/Confirmation";
 import { SchedulingDetails } from "../screens/SchedulingDetails";
 
-const { Navigator, Screen } = createStackNavigator();
+import { Car } from "../database/model/car";
+
+type AppStackRoutesParams = {
+  Home: undefined;
+  CarDetails: { car: Car };
+  Scheduling: { car: Car };
+  SchedulingDetails: undefined;
+  Confirmation: undefined;
+};
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends AppStackRoutesParams {}
+  }
+}
+
+const { Navigator, Screen } = createStackNavigator<AppStackRoutesParams>();
 
 export function AppStackRoutes() {
   return (
