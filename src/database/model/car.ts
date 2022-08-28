@@ -13,6 +13,9 @@ export class Car extends Model {
   @field("about")
   about: string;
 
+  @field("period")
+  period: string;
+
   @field("price")
   price: number;
 

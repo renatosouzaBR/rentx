@@ -5,7 +5,7 @@ import { RectButton } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 
 import LogoSvg from "../../assets/logo.svg";
-import { CarDTO } from "../../dtos/carDto";
+import { Car as ModelCar } from "../../database/model/car";
 
 export const Container = styled.View`
   flex: 1;
@@ -40,7 +40,7 @@ export const CarListSeparator = styled.View`
   background-color: transparent;
 `;
 
-export const CarList = styled(FlatList as new () => FlatList<CarDTO>).attrs({
+export const CarList = styled(FlatList as new () => FlatList<ModelCar>).attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     padding: 16,

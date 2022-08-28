@@ -9,7 +9,6 @@ import React, {
 import { api } from "../services/api";
 import { database } from "../database";
 import { User as UserModel } from "../database/model/user";
-import { Q } from "@nozbe/watermelondb";
 
 interface User {
   id: string;
@@ -31,6 +30,7 @@ interface SignInCredentials {
 
 interface AuthContextProps {
   user: User;
+  loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): Promise<void>;
   updateUser(user: User): Promise<void>;
@@ -44,6 +44,7 @@ const AuthContext = createContext({} as AuthContextProps);
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState({} as AuthState);
+  const [loading, setLoading] = useState(true);
 
   async function signIn({ email, password }: SignInCredentials) {
     try {
@@ -113,6 +114,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         const { token, ...user } = users[0]._raw as unknown as UserModel;
         api.defaults.headers["authorization"] = `Bearer ${token}`;
         setData({ user, token });
+        setLoading(false);
       }
     }
 
@@ -121,7 +123,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
+      value={{ user: data.user, loading, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>
