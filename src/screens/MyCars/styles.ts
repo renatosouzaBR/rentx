@@ -1,14 +1,14 @@
 import styled from "styled-components/native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { FlatList } from "react-native";
-import { CarDTO } from "../../dtos/carDto";
+
+import { Car as ModelCar } from "../../database/model/car";
 
 interface CarProps {
   id: string;
-  user_id: string;
-  car: CarDTO;
-  startDate: string;
-  endDate: string;
+  car: ModelCar;
+  start_date: string;
+  end_date: string;
 }
 
 export const Container = styled.View`

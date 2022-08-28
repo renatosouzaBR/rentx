@@ -78,6 +78,7 @@ export function SchedulingDetails() {
         car_id: car.id,
         start_date: new Date(`${dates[0]}T09:00:00.000Z`),
         end_date: new Date(`${dates[dates.length - 1]}T09:00:00.000Z`),
+        total: rentalPrice,
       });
 
       navigation.navigate("Confirmation", {
