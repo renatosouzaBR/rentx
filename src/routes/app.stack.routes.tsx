@@ -7,13 +7,14 @@ import { Confirmation } from "../screens/Confirmation";
 import { SchedulingDetails } from "../screens/SchedulingDetails";
 
 import { Car } from "../database/model/car";
+import { CarDTO } from "../dtos/carDto";
 
 type AppStackRoutesParams = {
   Home: undefined;
   CarDetails: { car: Car };
-  Scheduling: { car: Car };
-  SchedulingDetails: undefined;
-  Confirmation: undefined;
+  Scheduling: { car: CarDTO };
+  SchedulingDetails: { car: CarDTO; dates: string[] };
+  Confirmation: { title: string; message: string; nextScreenRoute: string };
 };
 
 declare global {

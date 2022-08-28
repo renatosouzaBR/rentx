@@ -11,7 +11,9 @@ type AuthRoutesParams = {
   SignIn: undefined;
   SignUpFirstStep: undefined;
   SignUpSecondStep: undefined;
-  Confirmation: undefined;
+  Confirmation: {
+    Confirmation: { title: string; message: string; nextScreenRoute: string };
+  };
 };
 
 declare global {

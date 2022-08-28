@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import { CarDTO } from "../../dtos/carDto";
 import { Accessory } from "../../components/Accessory";
@@ -58,7 +59,9 @@ export function SchedulingDetails() {
   const route = useRoute();
   const { car, dates } = route.params as Params;
 
-  const rentalPrice = Number(dates.length * car.rent.price);
+  const netInfo = useNetInfo();
+
+  const rentalPrice = Number(dates.length * car.price);
   const [rentalPeriod, setRentalPeriod] = useState({} as RentalPeriod);
   const [loading, setLoading] = useState(false);
 
@@ -69,21 +72,12 @@ export function SchedulingDetails() {
   async function handleConfirmRental() {
     try {
       setLoading(true);
-      const response = await api.get(`/schedules_bycars/${car.id}`);
-      const schedulesByCar = response.data;
 
-      const unavailable_dates = [...schedulesByCar.unavailable_dates, ...dates];
-
-      await api.put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates,
-      });
-
-      await api.post(`/schedules_byuser`, {
+      await api.post(`/rentals`, {
         user_id: 1,
-        car,
-        startDate: rentalPeriod.start,
-        endDate: rentalPeriod.end,
+        car_id: car.id,
+        start_date: new Date(`${dates[0]}T09:00:00.000Z`),
+        end_date: new Date(`${dates[dates.length - 1]}T09:00:00.000Z`),
       });
 
       navigation.navigate("Confirmation", {
@@ -92,9 +86,10 @@ export function SchedulingDetails() {
         nextScreenRoute: "Home",
       });
     } catch (error) {
+      console.log(error.response);
       Alert.alert(
         "Tente novamente",
-        "Não foi possível confirmar o agendamento"
+        "Não foi possível confirmar o agendamento!"
       );
     } finally {
       setLoading(false);
@@ -135,8 +130,8 @@ export function SchedulingDetails() {
           </Description>
 
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>R$ {car.rent.price}</Price>
+            <Period>{car.period}</Period>
+            <Price>R$ {car.price}</Price>
           </Rent>
         </Details>
 
@@ -180,7 +175,7 @@ export function SchedulingDetails() {
           <RentalPriceLabel>TOTAL</RentalPriceLabel>
           <RentalPriceDetails>
             <RentalDaily>
-              R$ {car.rent.price} x{dates.length} diárias
+              R$ {car.price} x{dates.length} diárias
             </RentalDaily>
             <RentalTotal>R$ {rentalPrice}</RentalTotal>
           </RentalPriceDetails>
@@ -192,7 +187,7 @@ export function SchedulingDetails() {
           title="Alugar agora"
           color={theme.colors.success}
           loading={loading}
-          enabled={!loading}
+          enabled={!loading && !!netInfo.isConnected}
           onPress={handleConfirmRental}
         />
       </Footer>

@@ -71,7 +71,7 @@ export function CarDetails() {
   }
 
   function handleScheduling() {
-    navigation.navigate("Scheduling", { car });
+    navigation.navigate("Scheduling", { car: carUpdated });
   }
 
   async function fetchCarUpdated() {
